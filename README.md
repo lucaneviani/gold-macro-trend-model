@@ -1,6 +1,8 @@
 # Gold Macro Trend Model
 
-> **A macro-driven, machine-learning pipeline that generates weekly directional signals for gold (XAU/USD) with a 12–26 week forward horizon.**
+> Gold Macro Trend Model is a quantitative project that produces weekly probabilistic long/short signals for gold (XAU/USD) across medium-term horizons: 12, 16 and 26 weeks. It combines advanced feature engineering, nine interpretable thematic factor groups, and LightGBM models trained with strict walk‑forward validation to deliver calibrated, explainable signals designed as actionable macro decision support.
+
+> This repository is the "cover" version of the project: a reproducible, end‑to‑end pipeline with verified results and documentation so you can reproduce, audit and refresh the weekly signal.
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)](https://www.python.org/)
 [![LightGBM](https://img.shields.io/badge/LightGBM-4.6-green?logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PC9zdmc+)](https://lightgbm.readthedocs.io/)
