@@ -1,0 +1,94 @@
+# ============================================================
+# Gold Macro Trend Model — .gitignore
+# ============================================================
+
+# --- Environment & API Keys (NEVER commit) ----------------
+.env
+.env.local
+.env.*.local
+*.env
+
+# --- Python ---------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.pyd
+.Python
+build/
+dist/
+develop-eggs/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# --- Virtual environments ------------------------------------
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.conda/
+
+# --- Jupyter Notebook ----------------------------------------
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+*.ipynb
+
+# --- Raw data (proprietary / too large for git) --------------
+data/raw/
+data/processed/
+
+# --- Trained models (binary, large) --------------------------
+models/*.pkl
+models/*.joblib
+models/*.h5
+
+# --- Generated outputs ---------------------------------------
+outputs/results/
+outputs/charts/
+
+# --- IDE & OS ------------------------------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+.AppleDouble
+.LSOverride
+
+# --- Testing & Coverage --------------------------------------
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+nosetests.xml
+coverage.xml
+*.cover
+
+# --- Type checking -------------------------------------------
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pytype/
+
+# --- Profiling -----------------------------------------------
+*.prof
+
+# --- Logs ----------------------------------------------------
+*.log
+logs/
