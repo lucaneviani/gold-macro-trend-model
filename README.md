@@ -6,7 +6,7 @@
 [![LightGBM](https://img.shields.io/badge/LightGBM-4.6-green)](https://lightgbm.readthedocs.io/)
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-1.8-orange?logo=scikitlearn&logoColor=white)](https://scikit-learn.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Walk-Forward AUC](https://img.shields.io/badge/Walk--Forward%20AUC-0.703-brightgreen)]()
+[![Global OOS AUC](https://img.shields.io/badge/Global%20OOS%20AUC-0.550-blue)]()
 [![Signal](https://img.shields.io/badge/Current%20Signal-LONG%20%E2%96%B2-success)]()
 
 ---
@@ -119,8 +119,8 @@ Five strategies were tested on the same OOS data to illustrate the model's value
 
 The model was validated using a **10-fold expanding-window walk-forward** — the gold standard for time series model validation, preventing any look-ahead bias.
 
-| Test Year | Train Size | OOS Size | % Weeks Rising | AUC | Statistical Test |
-|:---------:|:----------:|:--------:|:--------------:|:---:|:----------------:|
+| Test Year | Train Size | OOS Size | % Weeks Rising | AUC | Note |
+|:---------:|:----------:|:--------:|:--------------:|:---:|:----:|
 | 2016 | 573 wks | 53 wks | 54.7% | 0.539 | borderline |
 | 2017 | 626 wks | 52 wks | 61.5% | 0.603 | |
 | 2018 | 678 wks | 52 wks | 36.5% | 0.864 | ★★★ p < 0.001 |
@@ -129,12 +129,13 @@ The model was validated using a **10-fold expanding-window walk-forward** — th
 | 2021 | 834 wks | 53 wks | 52.8% | 0.741 | ★★★ p < 0.001 |
 | 2022 | 887 wks | 52 wks | 48.1% | 0.674 | ★★ p < 0.014 |
 | 2023 | 939 wks | 52 wks | 63.5% | 0.782 | ★★★ p < 0.001 |
-| 2024 | 991 wks | 52 wks | 98.1% | 0.980 | ★★ p < 0.033 |
-| 2025 | 1043 wks | 43 wks | 97.7% | 0.905 | |
-| **Mean** | | **516 total** | | **0.703** | **7/10 significant** |
-| **Std** | | | | 0.185 | |
+| 2024 | 991 wks | 52 wks | **98.1%** | 0.980 | ⚠ class-imbalanced |
+| 2025 | 1043 wks | 43 wks | **97.7%** | 0.905 | ⚠ class-imbalanced |
+| **Mean (all folds)** | | **516 total** | | **0.703** | arithmetic mean |
+| **Global pooled OOS** | | | | **0.550** | unbiased estimate |
+| Std | | | | 0.185 | |
 
-**AUC (Area Under the ROC Curve):** ranges from 0.5 (random) to 1.0 (perfect). An AUC of **0.703** means the model correctly ranks a randomly chosen positive week above a randomly chosen negative week 70.3% of the time. In financial forecasting, values above 0.60 are considered meaningful.
+**AUC (Area Under the ROC Curve):** ranges from 0.5 (random) to 1.0 (perfect). The honest, unbiased figure is the **global pooled OOS AUC = 0.550**, computed by treating all 516 OOS weeks as a single set. The per-fold mean of 0.703 is inflated by folds 2024 and 2025, where gold rose in 98% of weeks — in that condition any model predicting mostly upward will mechanically score near AUC 1.0, regardless of real skill. In financial time-series forecasting, a pooled AUC of 0.55 over a full decade is still above chance and consistent with low-frequency macro signal.
 
 > **Note on 2020:** AUC 0.318 reflects the COVID-19 macro regime break — an unprecedented disruption where all macro relationships temporarily inverted. This is a genuine structural break, not a model error.
 
@@ -144,8 +145,11 @@ The model was validated using a **10-fold expanding-window walk-forward** — th
 |--------|------:|-------|
 | LONG signal accuracy — 302 signals (OOS) | **68.8%** | % of LONG calls where gold rose ≥ 2% over 16w |
 | Correct LONG calls | 208 / 302 | |
-| Calibration error (ECE) | **< 0.06** | 0 = perfect; measures if P(0.70) really means 70% |
-| Calibration bias | **≈ 0.000** | No systematic over/under-confidence |
+| Global pooled OOS AUC (16w) | **0.550** | Unbiased estimate across all 516 OOS weeks |
+| Calibration error ECE — 12w | **0.009** | 0 = perfect calibration |
+| Calibration error ECE — 16w | **0.018** | 0 = perfect calibration |
+| Calibration error ECE — 26w | **0.032** | 0 = perfect calibration |
+| Calibration bias (all horizons) | **≈ 0.000** | No systematic over/under-confidence |
 
 ### Score Monotonicity — Does Higher Score Mean Higher Returns?
 
@@ -161,6 +165,8 @@ A critical validation: if the score is meaningful, **higher scores should predic
 | **67.5 – 70.0** | **122** | **77.9%** | **+5.36%** | **0.73** |
 
 As the score rises, both hit rate and average forward return increase. The relationship is **monotone** across 6 score bands — this is the quantitative foundation for using the score as a proportional allocation weight rather than a binary threshold.
+
+> **Definition:** "Hit rate" here is defined as `gold_fwd_16w_ret > 0` (any positive 16-week return). This is a softer threshold than the model's training target (≥ +2%). Using the training threshold, the absolute hit rates are ~8–9pp lower, but the monotone relationship and proportionality hold identically.
 
 ---
 
