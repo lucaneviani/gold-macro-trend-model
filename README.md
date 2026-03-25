@@ -9,6 +9,8 @@
 [![Global OOS AUC](https://img.shields.io/badge/Global%20OOS%20AUC-0.550-blue)]()
 [![Signal](https://img.shields.io/badge/Current%20Signal-LONG%20%E2%96%B2-success)]()
 
+![Gold Macro Trend Model Poster](assets/project-poster.svg)
+
 ---
 
 ## What This Is
